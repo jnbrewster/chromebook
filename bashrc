@@ -56,9 +56,9 @@ alias yt="youtube-dl"
 alias mp3='youtube-dl -t --extract-audio --audio-format mp3 --audio-quality 320k'
 alias gif='convert -delay 35 -loop 0 source*.png animated.gif'
 
-alias jeju="sh ~/dotfiles/Scripts/weather.sh "jeju""
-alias kingscliff="sh ~/dotfiles/Scripts/weather.sh "kingscliff""
-alias melbourne="sh ~/dotfiles/Scripts/weather.sh "melbourne""
+alias jeju="sh ~/chromebook/Scripts/weather.sh "jeju""
+alias kingscliff="sh ~/chromebook/Scripts/weather.sh "kingscliff""
+alias melbourne="sh ~/chromebook/Scripts/weather.sh "melbourne""
 
 #
 # HELPERS
