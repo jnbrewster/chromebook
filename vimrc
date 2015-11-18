@@ -7,8 +7,14 @@
 " GENERAL
 "
 
-" Disable vi compatibility.
-set nocompatible
+" Load bash.
+set shell=/bin/bash\ -i
+
+" Share the clipboard outside of vim
+set clipboard=unnamed
+
+" Set paste when pasting, set no paste when done.
+set pastetoggle=
 
 " Tab width.
 set tabstop=2
@@ -31,6 +37,9 @@ set history=1000
 " Ignore character case when searching.
 set ignorecase
 
+" Start searching before pressing enter.
+set incsearch
+
 
 "
 " UI
@@ -41,9 +50,6 @@ set relativenumber
 
 " Show cursor position.
 set ruler
-
-" Show colored column.
-set colorcolumn=80
 
 " Highlight current line.
 set cursorline
@@ -57,8 +63,9 @@ set showmatch
 " Highlight search matches.
 set hlsearch
 
-" Always show status line.
-set laststatus=2
+" Change order of default splits.
+set splitbelow
+set splitright
 
 
 "
@@ -67,24 +74,39 @@ set laststatus=2
 
 " Enable syntax highlighting.
 syntax on
-set background=dark
-
-"colorscheme gruvbox
 
 
 "
 " INPUT
 "
 
-" Leader key.
-let mapleader=' '
-nnoremap <space> <nop>
-
-" Disable search match highlighting.
-map <leader>h :nohlsearch<CR>
-
 " Enable full mouse usage.
 set mouse=a
+
+" Automatically match brackets.
+inoremap        (  ()<Left>
+inoremap <expr> )  strpart(getline('.'), col('.')-1, 1) == ")" ? "\<Right>" : ")"
+
+" Automatically match square brackets.
+inoremap        [  []<Left>
+inoremap <expr> ]  strpart(getline('.'), col('.')-1, 1) == "]" ? "\<Right>" : "]"
+
+" Automatically match closing curly bracket.
+inoremap {      {}<Left>
+inoremap {<CR>  {<CR>}<Esc>O<TAB>
+inoremap {{     {
+inoremap {}     {}
+
+" Automatically match single and double quotes.
+" Need to fix the single quote for when using abbreviations.
+inoremap <expr> ' strpart(getline('.'), col('.')-1, 1) == "\'" ? "\<Right>" : "\'\'\<Left>"
+inoremap <expr> " strpart(getline('.'), col('.')-1, 1) == "\"" ? "\<Right>" : "\"\"\<Left>"
+
+" Arrowkeys resize viewports.
+nnoremap <Left> :vertical resize -2<CR>
+nnoremap <Right> :vertical resize +2<CR>
+nnoremap <Up> :resize -2<CR>
+nnoremap <Down> :resize +2<CR>
 
 
 "
@@ -100,22 +122,6 @@ autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o
 " Remove whitespaces on save.
 autocmd BufWritePre * :%s/\s\+$//e
 
-
-"
-" PLUGIN
-"
-
-" Plugged plugin manager.
-call plug#begin('~/.vim/plugged')
-
-Plug 'morhetz/gruvbox'
-Plug 'kien/ctrlp.vim'
-Plug 'jiangmiao/auto-pairs'
-Plug 'ap/vim-css-color'
-
-call plug#end()
-
-
-" Ctrlp shortcut.
-nnoremap <c-\> :CtrlP<CR>
-
+" Enable spellchecking for Markdown files and git commit messages.
+autocmd FileType markdown setlocal spell
+autocmd FileType gitcommit setlocal spell
